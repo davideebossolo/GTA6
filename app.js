@@ -7,7 +7,7 @@ const PORT = 3000;
 
 // Servire gta.html come pagina principale
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'gta.html'));
+    res.sendFile(path.join(__dirname, 'GTA.html'));
 });
 
 // Endpoint per ottenere i dati dal file Excel
@@ -22,7 +22,7 @@ app.get('/api/excel-data', (req, res) => {
 
 // Servire programma.html all'endpoint /programma
 app.get('/programma', (req, res) => {
-    res.sendFile(path.join(__dirname, 'programma.html'));
+    res.sendFile(path.join(__dirname, 'PROGRAMMA.html'));
 });
 
 // Avvio del server
