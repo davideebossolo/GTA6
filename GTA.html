@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown e Link</title>
+    <style>
+        @font-face {
+            font-family: 'Pricedown';
+            src: url('PRICEDOW.TTF') format('opentype');
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Pricedown', Arial, sans-serif;
+            background: linear-gradient(to right, #000428, #004e92);
+            color: #fff;
+            overflow: hidden;
+            flex-direction: column;
+        }
+
+        .countdown-container, .link-container {
+            text-align: center;
+            margin: 10px;
+        }
+        .countdown-container h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        .circle, .link-circle {
+            display: inline-block;
+            margin: 15px;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        .circle:hover, .link-circle:hover {
+            transform: scale(1.1);
+            background: rgba(255, 255, 255, 0.2);
+        }
+        .link-circle a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: bold;
+            font-family: 'Pricedown', Arial, sans-serif;
+        }
+        .time, .link-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            font-size: 2rem;
+            font-family: 'Pricedown', Arial, sans-serif;
+        }
+        .label {
+            font-size: 0.8rem;
+            margin-top: 5px;
+            opacity: 0.8;
+        }
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="countdown-container">
+        <h1>Countdown a GTA 6</h1>
+        <div class="circle">
+            <div id="days" class="time">
+                0<span class="label">Giorni</span>
+            </div>
+        </div>
+        <div class="circle">
+            <div id="hours" class="time">
+                0<span class="label">Ore</span>
+            </div>
+        </div>
+        <div class="circle">
+            <div id="minutes" class="time">
+                0<span class="label">Minuti</span>
+            </div>
+        </div>
+        <div class="circle">
+            <div id="seconds" class="time">
+                0<span class="label">Secondi</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="link-container">
+        <div class="link-circle">
+            <div class="link-content">
+                <a href="https://rockstargames.com" target="_blank">Rockstar Games</a>
+            </div>
+        </div>
+        <div class="link-circle">
+            <div class="link-content">
+                <a href="https://chatgpt.com/gpts/editor/g-Ag9CxVNTb" target="_blank">Instagram GPT</a>
+            </div>
+        </div>
+        <div class="link-circle">
+            <div class="link-content">
+                <a href="https://spaziogames.it" target="_blank">SpazioGames</a>
+            </div>
+        </div>
+
+        <div class="link-circle">
+            <div class="link-content">
+                <a href="/programma" class="back-button">Vai al Programma di Caricamento</a>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const releaseDate = new Date("October 1, 2025 00:00:00").getTime();
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const timeLeft = releaseDate - now;
+
+            const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+            document.getElementById("days").innerHTML = `${days}<span class="label">Giorni</span>`;
+            document.getElementById("hours").innerHTML = `${hours}<span class="label">Ore</span>`;
+            document.getElementById("minutes").innerHTML = `${minutes}<span class="label">Minuti</span>`;
+            document.getElementById("seconds").innerHTML = `${seconds}<span class="label">Secondi</span>`;
+
+            if (timeLeft < 0) {
+                document.querySelector(".countdown-container h1").innerText = "GTA 6 è uscito!";
+                clearInterval(countdownInterval);
+            }
+        }
+
+        const countdownInterval = setInterval(updateCountdown, 1000);
+    </script>
+</body>
+</html>

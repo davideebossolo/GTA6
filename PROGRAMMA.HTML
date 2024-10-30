@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programma di Caricamento</title>
+    <style>
+        @font-face {
+            font-family: 'Pricedown';
+            src: url('./fonts/PRICEDOW.TTF') format('truetype');
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Pricedown', Arial, sans-serif;
+            background: linear-gradient(to right, #000428, #004e92);
+            color: #00ff00;
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 80%;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: #00ff00;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #00ff00;
+            text-align: center;
+        }
+
+        th {
+            font-weight: bold;
+        }
+
+        .back-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            color: #00ff00;
+            background-color: #000;
+            border: 2px solid #00ff00;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .back-button:hover {
+            background-color: #00ff00;
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+    <h1>Programma di Caricamento Instagram</h1>
+    <table id="excelDataTable" border="1">
+        <thead>
+            <!-- Intestazioni della tabella generate dinamicamente -->
+        </thead>
+        <tbody>
+            <!-- Dati della tabella generati dinamicamente -->
+        </tbody>
+    </table>
+
+    <a href="/" class="back-button">Torna al Countdown</a>
+
+    <script>
+        // Funzione per ottenere i dati dall'endpoint e mostrarli nella tabella
+        async function loadExcelData() {
+            try {
+                const response = await fetch('/api/excel-data');
+                const data = await response.json();
+
+                const table = document.getElementById('excelDataTable');
+                const thead = table.querySelector('thead');
+                const tbody = table.querySelector('tbody');
+
+                // Creare le intestazioni della tabella
+                const headers = Object.keys(data[0]);
+                const headerRow = document.createElement('tr');
+                headers.forEach(header => {
+                    const th = document.createElement('th');
+                    th.textContent = header;
+                    headerRow.appendChild(th);
+                });
+                thead.appendChild(headerRow);
+
+                // Popolare la tabella con i dati
+                data.forEach(row => {
+                    const rowElement = document.createElement('tr');
+                    headers.forEach(header => {
+                        const td = document.createElement('td');
+                        td.textContent = row[header];
+                        rowElement.appendChild(td);
+                    });
+                    tbody.appendChild(rowElement);
+                });
+            } catch (error) {
+                console.error("Errore nel caricamento dei dati Excel:", error);
+            }
+        }
+
+        // Caricare i dati Excel al caricamento della pagina
+        window.onload = loadExcelData;
+    </script>
+</body>
+</html>
