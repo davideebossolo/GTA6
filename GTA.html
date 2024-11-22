@@ -5,148 +5,379 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Countdown e Link</title>
     <style>
-        @font-face {
-            font-family: 'Pricedown';
-            src: url('PRICEDOW.TTF') format('opentype');
-        }
 
+    @font-face {
+        font-family: 'Pricedown';
+        src: url('fonts/Pricedown.ttf') format('truetype');
+    }
+    
+    body {
+        margin: 0;
+        font-family: 'Pricedown', Arial, sans-serif;
+        background: linear-gradient(to right, #e2c044, #d4418e);
+        color: #fff;
+    }
+    
+    /* Header Title */
+    .header-title {
+    font-size: 2rem;
+    text-align: center;
+    margin: 20px 0;
+    color: transparent; /* Colore del testo trasparente per vedere il gradiente */
+    background: linear-gradient(to right, yellow, fuchsia); /* Sfumatura progressiva */
+    -webkit-background-clip: text; /* Clippa il gradiente al testo */
+    -moz-background-clip: text;
+    background-clip: text;
+}
+
+
+
+    /* Navbar Styles */
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 40px;
+        background-color: rgba(0, 0, 0, 0.8);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    }
+    
+    .navbar img {
+        height: 120px;
+        width: 120px;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+    
+    .navbar ul {
+        list-style: none;
+        display: flex;
+        margin: 0;
+        padding: 0;
+        gap: 20px;
+    }
+    
+    .navbar ul li {
+        margin: 0;
+    }
+    
+    .navbar ul li a {
+        text-decoration: none;
+        color: #fff;
+        font-size: 1.5rem;
+        font-weight: bold;
+        transition: color 0.3s;
+    }
+    
+    .navbar ul li a:hover {
+        color: #d4418e;
+    }
+    
+    /* Toggle Bar Styles */
+    .menu-toggle {
+        display: none;
+        font-size: 24px;
+        color: #fff;
+        cursor: pointer;
+    }
+    
+    /* Popup Overlay */
+    .popup-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        visibility: hidden;
+        opacity: 0;
+        transition: visibility 0s, opacity 0.5s;
+    }
+    
+    .popup-overlay.active {
+        visibility: visible;
+        opacity: 1;
+    }
+    
+    .popup-content {
+        background-color: rgba(0, 0, 0, 0.9);
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        width: 80%;
+        max-width: 400px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    }
+    
+    .popup-content h2 {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+        color: #ffd700;
+    }
+    
+    .popup-content p {
+        font-size: 1.5rem;
+        margin: 10px 0;
+    }
+    
+    .close-button {
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: #d4418e;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1.2rem;
+    }
+    
+    .close-button:hover {
+        background-color: #ff69b4;
+    }
+    
+    /* Stats Container */
+    .stats-container {
+        margin: 20px;
+        padding: 20px;
+        background-color: rgba(0, 0, 0, 0.8);
+        color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+        text-align: center;
+    }
+    
+    .stats-container h2 {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+        color: #ffd700;
+    }
+    
+    .stats-container p {
+        font-size: 1.5rem;
+        margin: 5px 0;
+    }
+    
+    .youtube-container {
+    display: flex;
+    justify-content: center; /* Allinea orizzontalmente al centro */
+    align-items: center;    /* Allinea verticalmente al centro */
+    min-height: 50vh;       /* Riduce l'altezza minima del contenitore */
+    background-color: #000; /* Sfondo scuro per dare risalto al video */
+    padding: 10px;          /* Riduce lo spazio interno */
+    box-sizing: border-box; /* Includi il padding nelle dimensioni */
+    max-width: 800px;       /* Limita la larghezza massima del contenitore */
+    margin: 0 auto;         /* Centra il contenitore nella pagina */
+}
+
+.youtube-container iframe {
+    width: 320px;           /* Imposta una larghezza fissa */
+    height: 180px;          /* Imposta una altezza fissa proporzionale */
+    border-radius: 10px;    /* Aggiunge angoli arrotondati */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); /* Aggiunge un'ombra più leggera */
+    border: none;           /* Rimuove il bordo predefinito */
+}
+
+
+.carousel-container {
+    width: 100%;
+    overflow: hidden; /* Nasconde il contenuto fuori dai limiti */
+    position: relative;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 20px 0;
+    margin-top: 10px;
+}
+
+.carousel {
+    display: flex;
+    animation: scroll 20s linear infinite; /* Scroll continuo */
+    width: calc(200%); /* Duplica la lunghezza per creare un loop */
+}
+
+.carousel img {
+    width: 120px;
+    height: auto;
+    margin: 0 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Keyframe per lo scroll infinito */
+@keyframes scroll {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%); /* Scorre la metà, per completare il ciclo */
+    }
+}
+
+    
+    /* Responsive Styles */
+    @media (max-width: 600px) {
         body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            font-family: 'Pricedown', Arial, sans-serif;
-            background: linear-gradient(to right, #000428, #004e92);
-            color: #fff;
-            overflow: hidden;
-            flex-direction: column;
+            font-size: 14px;
         }
-
-        .countdown-container, .link-container {
+    
+        .menu-toggle {
+            display: block;
+        }
+    
+        .navbar ul {
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
             text-align: center;
-            margin: 10px;
+            background-color: #444;
+            padding: 10px 0;
+            margin: 0;
         }
-        .countdown-container h1 {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-        }
-        .circle, .link-circle {
-            display: inline-block;
-            margin: 15px;
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
-            position: relative;
-            overflow: hidden;
-            transition: transform 0.3s ease;
-        }
-        .circle:hover, .link-circle:hover {
-            transform: scale(1.1);
-            background: rgba(255, 255, 255, 0.2);
-        }
-        .link-circle a {
-            color: #fff;
-            text-decoration: none;
-            font-size: 1.2rem;
-            font-weight: bold;
-            font-family: 'Pricedown', Arial, sans-serif;
-        }
-        .time, .link-content {
+    
+        .navbar ul.active {
             display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100%;
-            font-size: 2rem;
-            font-family: 'Pricedown', Arial, sans-serif;
         }
-        .label {
-            font-size: 0.8rem;
-            margin-top: 5px;
-            opacity: 0.8;
-        }
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-    </style>
+    }
+
+    
+</style>
 </head>
 <body>
-    <div class="countdown-container">
-        <h1>Countdown a GTA 6</h1>
-        <div class="circle">
-            <div id="days" class="time">
-                0<span class="label">Giorni</span>
-            </div>
-        </div>
-        <div class="circle">
-            <div id="hours" class="time">
-                0<span class="label">Ore</span>
-            </div>
-        </div>
-        <div class="circle">
-            <div id="minutes" class="time">
-                0<span class="label">Minuti</span>
-            </div>
-        </div>
-        <div class="circle">
-            <div id="seconds" class="time">
-                0<span class="label">Secondi</span>
-            </div>
-        </div>
+    
+        <nav class="navbar">
+            <img src="images/logo.jpg" alt="Logo">
+            <h2 class="header-title">gta vi tube official</h2>
+            <div class="menu-toggle">☰</div> <!-- Icona per il toggle -->
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+
+    <!-- Div per le statistiche dinamiche -->
+    <div id="stats" class="stats-container"></div>
+    <div class="youtube-container">
+        <iframe 
+            width="560" 
+            height="315" 
+            src="https://www.youtube.com/embed/u1eoe7fM5cM?si=wYJSIcK_EsQlLkj4" 
+            title="YouTube video player" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            referrerpolicy="strict-origin-when-cross-origin" 
+            allowfullscreen>
+        </iframe>
     </div>
-
-    <div class="link-container">
-        <div class="link-circle">
-            <div class="link-content">
-                <a href="https://rockstargames.com" target="_blank">Rockstar Games</a>
+        <div class="carousel-container">
+            <div class="carousel">
+                <a href="https://www.instagram.com/gta6tube/" target="_blank">
+                    <img src="images/gta6.jpg" alt="Immagine 1">
+                </a>
+                <a href="https://www.instagram.com/gta6tube/" target="_blank">
+                    <img src="images/logo.jpg" alt="Immagine 2">
+                </a>
+                <a href="https://www.instagram.com/gta6tube/" target="_blank">
+                    <img src="images/Cattura.jpg" alt="Immagine 3">
+                </a>
+                <a href="https://www.instagram.com/gta6tube/" target="_blank">
+                    <img src="images/Cattura2.jpg" alt="Immagine 4">
+                </a>
+                <a href="https://www.instagram.com/gta6tube/" target="_blank">
+                    <img src="images/gta6.jpg" alt="Immagine 1">
+                </a>
+                <a href="https://www.instagram.com/gta6tube/" target="_blank">
+                    <img src="images/logo.jpg" alt="Immagine 2">
+                </a>
+                <a href="https://www.instagram.com/gta6tube/" target="_blank">
+                    <img src="images/Cattura7.jpg" alt="Immagine 3">
+                </a>
+                <a href="https://www.instagram.com/gta6tube/" target="_blank">
+                    <img src="images/Cattura8.jpg" alt="Immagine 4">
+                </a>
+                <a href="https://www.instagram.com/gta6tube/" target="_blank">
+                    <img src="images/gta6.jpg" alt="Immagine 1">
+                </a>
+                <a href="https://www.instagram.com/gta6tube/" target="_blank">
+                    <img src="images/logo.jpg" alt="Immagine 2">
+                </a>
+                <a href="https://www.instagram.com/gta6tube/" target="_blank">
+                    <img src="images/Cattura3.jpg" alt="Immagine 3">
+                </a>
+                <a href="https://www.instagram.com/gta6tube/" target="_blank">
+                    <img src="images/Cattura4.jpg" alt="Immagine 4">
+                </a>
             </div>
-        </div>
-        <div class="link-circle">
-            <div class="link-content">
-                <a href="https://chatgpt.com/gpts/editor/g-Ag9CxVNTb" target="_blank">Instagram GPT</a>
-            </div>
-        </div>
-        <div class="link-circle">
-            <div class="link-content">
-                <a href="https://spaziogames.it" target="_blank">SpazioGames</a>
-            </div>
-        </div>
-
-        <div class="link-circle">
-            <div class="link-content">
-                <a href="/programma" class="back-button">Vai al Programma di Caricamento</a>
-            </div>
-        </div>
-
+            
     </div>
 
     <script>
-        const releaseDate = new Date("October 1, 2025 00:00:00").getTime();
+            const statsContainer = document.getElementById("stats");
 
-        function updateCountdown() {
-            const now = new Date().getTime();
-            const timeLeft = releaseDate - now;
+            // Dati di esempio
+            const stats = [
+                { label: "Guadagno Totale", value: "€150,000" },
+                { label: "Abbonati", value: "5,000" },
+                { label: "Video Pubblicati", value: "120" },
+            ];
 
-            const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+            // Aggiungere titolo
+            const title = document.createElement("h2");
+            title.textContent = "Statistiche di Guadagno";
+            statsContainer.appendChild(title);
 
-            document.getElementById("days").innerHTML = `${days}<span class="label">Giorni</span>`;
-            document.getElementById("hours").innerHTML = `${hours}<span class="label">Ore</span>`;
-            document.getElementById("minutes").innerHTML = `${minutes}<span class="label">Minuti</span>`;
-            document.getElementById("seconds").innerHTML = `${seconds}<span class="label">Secondi</span>`;
+            // Aggiungere statistiche
+            stats.forEach(stat => {
+                const statElement = document.createElement("p");
+                statElement.textContent = `${stat.label}: ${stat.value}`;
+                statsContainer.appendChild(statElement);
+            });
+        });
 
-            if (timeLeft < 0) {
-                document.querySelector(".countdown-container h1").innerText = "GTA 6 è uscito!";
-                clearInterval(countdownInterval);
-            }
+        document.addEventListener("DOMContentLoaded", () => {
+            const popup = document.getElementById("popup");
+            popup.classList.add("active");
+
+            // Dati finali
+            const stats = [
+                { id: "stat1", finalValue: 150000, prefix: "€" },
+                { id: "stat2", finalValue: 5000 },
+                { id: "stat3", finalValue: 120 },
+            ];
+
+            // Animazione numerica
+            stats.forEach(({ id, finalValue, prefix = "" }) => {
+                const element = document.getElementById(id);
+                let currentValue = 0;
+                const interval = setInterval(() => {
+                    currentValue += Math.ceil(finalValue / 100);
+                    if (currentValue >= finalValue) {
+                        currentValue = finalValue;
+                        clearInterval(interval);
+                    }
+                    element.textContent = `${element.textContent.split(":")[0]}: ${prefix}${currentValue}`;
+                }, 30);
+            });
+        });
+
+        function closePopup() {
+            const popup = document.getElementById("popup");
+            popup.classList.remove("active"); // Hide the popup
         }
 
-        const countdownInterval = setInterval(updateCountdown, 1000);
+        document.addEventListener('DOMContentLoaded', () => {
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navMenu = document.querySelector('.navbar ul');
+
+    menuToggle.addEventListener('click', () => {
+        navMenu.classList.toggle('active');
+    });
+});
+
     </script>
 </body>
 </html>
