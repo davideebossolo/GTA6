@@ -27,7 +27,7 @@ app.get('/api/excel-data', (req, res) => {
 
 // Servire programma.html all'endpoint /programma
 app.get('/programma', (req, res) => {
-    res.sendFile(path.join(__dirname, 'programma.html'));
+    res.sendFile(path.join(__dirname, 'PROGRAMMA.html'));
 });
 
 app.get('/api/post-today', (req, res) => {
